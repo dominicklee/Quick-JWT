@@ -4,6 +4,11 @@ Library to create, sign, and validate JWT tokens in your browser using JavaScrip
 ## Overview ##
 This repository contains two directories - `js` and `php`. Each folder contains the `QuickJWT` library with examples for its respective programming language.
 
+## Demo ##
+
+See the live demo here:
+[https://rawcdn.githack.com/dominicklee/Quick-JWT/main/js/index.html](https://rawcdn.githack.com/dominicklee/Quick-JWT/main/js/index.html)
+
 ## QuickJWT JS Usage ##
 1. To use the CDN Hosted Link, include the following in your HTML:
 ```html
@@ -47,11 +52,6 @@ QuickJWT.loadCryptoJS(() => {
   }
 });
 ```
-
-## Demo ##
-
-See the live demo here:
-[https://rawcdn.githack.com/dominicklee/Quick-JWT/main/js/index.html](https://rawcdn.githack.com/dominicklee/Quick-JWT/main/js/index.html)
 
 ## QuickJWT PHP Usage ##
 Coming soon...
