@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>QuickJWT Example</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/google/code-prettify@master/styles/desert.css">
+	<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+	<script src="quick-jwt.js"></script>
+</head>
+<body>
+
+<div class="jumbotron text-center py-3">
+  <h1>QuickJWT Example</h1>
+  <p>Easily create and validate JWT tokens in your browser.<br />Library by Dominick Lee. Provided under the MIT license.</p>
+</div>
+
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-sm-6">
+      <h3>Step 1 - Include the library</h3>
+	  <p>Include the <strong>QuickJWT</strong> library in your HTML code using this CDN:</p>
+<pre class="prettyprint lang-html">
+&lt;script src="https://cdn.jsdelivr.net/gh/dominicklee/Quick-JWT@latest/js/quick-jwt.js"&gt;&lt;/script&gt;
+</pre>
+	  <p>Make sure that line is placed before the "&lt;/body&gt" tag.</p>
+    </div>
+    <div class="col-sm-6">
+      <h3>Step 2 - Load CryptoJS</h3>
+      <p>This library needs the <i>CryptoJS</i> library for cryptography. For your convenience, you can dynamically load it in QuickJWT like so:</p>
+<pre class="prettyprint lang-js">
+QuickJWT.loadCryptoJS(() => {
+  // Run your JS code here after CryptoJS loads
+});
+</pre>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12">
+      <h3>Step 3 - Generate your JWT</h3>
+	  <p>Declare your <i>payload</i> and <i>secret</i> variables. Then use <strong><i>QuickJWT.sign</i></strong> to generate and sign your JWT. The output will be your JWT string.</p>
+<pre class="prettyprint lang-js">
+QuickJWT.loadCryptoJS(() => {
+  const payload = { userID: "1234567890", name: "John Doe", iat: 1516239022 };
+  const secret = "your-256-bit-secret";	//change this
+
+  // Create a token
+  const token = QuickJWT.sign(payload, secret);
+  console.log("Generated Token:", token);
+});
+</pre>
+    </div>
+    <div class="col-sm-12">
+      <h3>Step 4 - Validate JWT signature and decode payload</h3>
+      <p>If you receive a JWT token from someone, you may want to validate its signature against your own private key or secret to ensure the payload integrity. Afterwards, you may want to decode its payload contents. You can do that as follows:</p>
+<pre class="prettyprint lang-js">
+QuickJWT.loadCryptoJS(() => {
+  const token = 'your-JWT-token-here';	//change this
+  const secret = "your-256-bit-secret";	//change this
+  
+  // Validate the token
+  const isValid = QuickJWT.validate(token, secret);
+  console.log("Is Valid:", isValid); // Output: true (if secret matches)
+  
+  // Decode the payload contents if signature is valid 
+  if (isValid) {
+    // Decode the payload
+    const decodedPayload = QuickJWT.decode(token);
+    console.log("Decoded Payload:", decodedPayload);
+  }
+});
+</pre>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-12">
+		<h3>QuickJWT - Full Demo</h3>
+		<p>See the entire demo in your browser here. The contents shown here are dynamically generated with QuickJWT.</p>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header lead">Encode JWT</div>
+					<div class="card-body">
+					<h5>Original payload:</h5>
+<pre id="output1"></pre>
+					<h5>Generated JWT:</h5>
+<pre id="output2"></pre>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="card">
+					<div class="card-header lead">Decode JWT</div>
+					<div class="card-body">
+					<h5>Decoded payload:</h5>
+<pre id="output3"></pre>
+					<h5>JWT Signature Valid:</h5>
+<pre id="output4"></pre>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+
+	<script>
+		// Helper function for browser demo
+		function showInBrowser(obj, id) {
+			const jsonString = JSON.stringify(obj, null, 2);
+			document.getElementById(id).innerHTML = jsonString;
+		}
+	
+		// Example usage of Quick JWT
+		QuickJWT.loadCryptoJS(() => {
+		  const payload = { userID: "1234567890", name: "John Doe", iat: 1516239022 };
+		  const secret = "your-256-bit-secret";
+		  showInBrowser(payload, "output1");
+
+		  // Create a token
+		  const token = QuickJWT.sign(payload, secret);
+		  console.log("Generated Token:", token);
+		  showInBrowser(token, "output2");
+		  
+		  // Decode the payload
+		  const decodedPayload = QuickJWT.decode(token);
+		  console.log("Decoded Payload:", decodedPayload);
+		  showInBrowser(decodedPayload, "output3");
+
+		  // Validate the token
+		  const isValid = QuickJWT.validate(token, secret);
+		  console.log("Is Valid:", isValid); // Output: true
+		  showInBrowser(isValid, "output4");
+		});
+	</script>
+</body>
+</html>
